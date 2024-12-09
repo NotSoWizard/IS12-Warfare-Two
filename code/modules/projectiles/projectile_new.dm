@@ -740,7 +740,7 @@
 			admin_attack_log(firer, target_mob, attacker_message, victim_message, admin_message)
 		else
 			admin_victim_log(target_mob, "was shot by an <b>UNKNOWN SUBJECT (No longer exists)</b> using \a [src]")
-	/*
+
 	if(ishuman(firer) && ishuman(target_mob))
 		var/mob/living/carbon/human/attacker = firer
 		var/mob/living/carbon/human/victim = target_mob
@@ -750,7 +750,7 @@
 					to_chat(attacker, "<big>[victim] is on my side!</big>")
 					log_and_message_admins("[attacker] has shot his teammate [victim] with \a [src.type]!", attacker)
 					GLOB.ff_incidents++//Dumb round end stat stuff.
-	*/
+
 
 	//sometimes bullet_act() will want the projectile to continue flying
 	if (result == PROJECTILE_CONTINUE)
@@ -1013,11 +1013,10 @@
 	qdel(src)
 
 /obj/item/projectile/proc/store_hitscan_collision(datum/point/pcache)
-	/*
 	beam_segments[beam_index] = pcache
 	beam_index = pcache
 	beam_segments[beam_index] = null
-	*/
+
 /obj/item/projectile/proc/return_predicted_turf_after_moves(moves, forced_angle)		//I say predicted because there's no telling that the projectile won't change direction/location in flight.
 	if(!trajectory && isnull(forced_angle) && isnull(Angle))
 		return FALSE
@@ -1059,12 +1058,10 @@
 		return 50 //if the projectile doesn't do damage, play its hitsound at 50% volume.
 
 /obj/item/projectile/proc/before_z_change(turf/oldloc, turf/newloc)
-	return
-	/*
 	var/datum/point/pcache = trajectory.copy_to()
 	if(hitscan)
 		store_hitscan_collision(pcache)
-	*/
+
 /obj/item/projectile/Process()
 	last_process = world.time
 
@@ -1107,19 +1104,15 @@
 		trajectory.initialize_location(target.x, target.y, target.z, 0, 0)
 
 /obj/item/projectile/Destroy()
-	/*
 	if(hitscan)
 		if(loc && trajectory)
 			var/datum/point/pcache = trajectory.copy_to()
 			beam_segments[beam_index] = pcache
 		generate_hitscan_tracers()
-	*/
 	STOP_PROCESSING(SSprojectiles, src)
 	return ..()
 
-/obj/item/projectile/proc/generate_hitscan_tracers(cleanup = TRUE, duration = 10)
-	return
-	/*
+/obj/item/projectile/proc/generate_hitscan_tracers(cleanup = TRUE, duration = 1)
 	if(!length(beam_segments))
 		return
 	if(duration <= 0)
@@ -1135,6 +1128,7 @@
 		M.Turn(original_angle)
 		thing.transform = M
 		spawn(duration)
+			animate(thing, duration, alpha = 0)
 			qdel(thing)
 	if(impact_type)
 		var/datum/point/p = beam_segments[beam_segments[beam_segments.len]]
@@ -1144,13 +1138,13 @@
 		M.Turn(Angle)
 		thing.transform = M
 		spawn(duration)
+			animate(thing, duration, alpha = 0)
 			qdel(thing)
 	if(cleanup)
 		for(var/i in beam_segments)
 			qdel(i)
 		beam_segments = null
 		QDEL_NULL(beam_index)
-	*/
 
 /proc/get_projectile_angle(atom/source, atom/target)
 	var/sx = source.x * world.icon_size

@@ -66,7 +66,7 @@
 		src:vis_contents -= light_new
 
 	if(light_color)
-		light_new.color = light_color
+		light_new?.color = light_color
 
 	/*
 	if(light_power)
@@ -141,8 +141,8 @@ if(loc != old_loc) {\
 	for(var/obj/item/A in src)
 		if(A.light_range)
 			vis_contents |= A.light_new
-		//else
-		//	vis_contents -= A.light_new
+		else
+			vis_contents.Cut()
 
 
 /obj/item/equipped(mob/user)
@@ -150,7 +150,7 @@ if(loc != old_loc) {\
 	if((light_new in user.vis_contents))//We have no light already, so get rid of it.
 		vis_contents -= light_new
 		qdel(light_new)
-		//user.vis_contents.Cut()
+		user.vis_contents.Cut()
 		user.update_light()
 
 
@@ -160,7 +160,7 @@ if(loc != old_loc) {\
 		user.vis_contents |= light_new
 		user.update_light()
 
-/*
+
 /mob/drop_from_inventory(var/obj/item/W, var/atom/target = null)
 	..()
 	if(W && W.light_new)
@@ -168,8 +168,8 @@ if(loc != old_loc) {\
 			src.vis_contents -= W.light_new
 			qdel(W.light_new)
 			update_light()
-*/
-/*
+
+
 /obj/item/dropped(mob/user)
 	. = ..()
 	for(light_new in user.vis_contents)//We have no light already, so get rid of it.
@@ -177,4 +177,3 @@ if(loc != old_loc) {\
 		qdel(light_new)
 		user.update_light()
 	update_light()
-*/

@@ -7,12 +7,11 @@
 	anchored = TRUE
 	density = FALSE
 	color = "#bfc0cf"// I Cba to resprite these rn so its just a recolor to make them blend in more. - Kas
-	plane = PLATING_PLANE
-	layer = BASE_ABOVE_OBJ_LAYER
-	 // Crates kept getting hidden under these. // Edit: cannot do that. It fucks up the turf smoothing overlays.
-	/*plane = OBJ_PLANE
-	layer = BELOW_OBJ_LAYER-0.1 // I want this to be under crates and items. || It also means that you can throw grenades back if they land on dirt cover.
-	*/
+	//plane = PLATING_PLANE
+	//layer = BASE_ABOVE_OBJ_LAYER
+	//  Crates kept getting hidden under these. // Edit: cannot do that. It fucks up the turf smoothing overlays.
+	plane = ABOVE_OBJ_PLANE
+	layer = 26.1 // I want this to be under crates and items. || It also means that you can throw grenades back if they land on dirt cover.
 	atom_flags = ATOM_FLAG_CLIMBABLE
 	var/health = 100
 
@@ -38,23 +37,22 @@
 
 		icon_state = "brustwehr_[junction]"
 
-/obj/structure/dirt_wall/Crossed(var/mob/living/M as mob)
-	if(istype(M))
+/obj/structure/dirt_wall/Crossed(var/atom/M)
+	if(ismob(M))
 		M.pixel_y = 12
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if(H.client)
-			H.fov_mask.screen_loc = "1,1"
-			H.fov.screen_loc = "1,1"
+	if(isobj(M))
+		var/obj/O = M
+		O.plane = ABOVE_OBJ_PLANE
+		O.layer = ABOVE_OBJ_LAYER+1
 
-/obj/structure/dirt_wall/Uncrossed(var/mob/living/M as mob)
-	if(istype(M))
+/obj/structure/dirt_wall/Uncrossed(var/atom/M)
+	if(ismob(M))
 		M.pixel_y = 0
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if(H.client)
-			H.fov_mask.screen_loc = "1,1"
-			H.fov.screen_loc = "1,1"
+
+	if(isobj(M))
+		var/obj/O = M
+		O.plane = initial(O.plane)
+		O.layer = initial(O.layer)
 
 /obj/structure/dirt_wall/attackby(obj/O as obj, mob/user as mob)
 	if(istype(O, /obj/item/shovel))
@@ -517,6 +515,7 @@
 /obj/structure/landmine/proc/blow()
 	GLOB.mines_tripped++
 	fragmentate(get_turf(src), 20, 2, list(/obj/item/projectile/bullet/pellet/fragment/landmine))
+	explosion(loc, 2, 2, 1, 1)
 	qdel(src)
 
 /obj/structure/landmine/update_icon()

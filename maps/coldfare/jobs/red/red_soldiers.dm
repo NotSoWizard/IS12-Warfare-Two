@@ -7,9 +7,10 @@
 	auto_rifle_skill = 10
 	semi_rifle_skill = 7
 	sniper_skill = 3
-	shotgun_skill = 6
+	shotgun_skill = 5
 	lmg_skill = 3
 	smg_skill = 3
+	boltie_skill = 10
 
 	squad_overlay = "rifleman"
 
@@ -85,6 +86,7 @@
 	smg_skill = 10
 	shotgun_skill = 10
 	total_positions = -1
+	boltie_skill = 5
 
 	announced = FALSE
 
@@ -226,6 +228,7 @@
 	shotgun_skill = 0
 	lmg_skill = 0
 	smg_skill = 0
+	boltie_skill = 0
 	supervisors = "adults and your very cool country"
 	announced = FALSE
 

@@ -9,9 +9,11 @@
 	embed = 1
 	sharp = 1
 	penetration_modifier = 1.0
-	hitscan = TRUE
 	var/mob_passthrough_check = 0
 	muzzle_type = /obj/effect/projectile/bullet/muzzle
+	tracer_type = /obj/effect/projectile/bullet/tracer
+	impact_type = /obj/effect/projectile/bullet/impact
+	hitscan = TRUE
 
 /obj/item/projectile/bullet/on_hit(var/atom/target, var/blocked = 0)
 	if (..(target, blocked))
@@ -115,6 +117,19 @@
 	light_power = 9 //No tracers.
 	light_range = 0
 	light_color = null
+
+
+/obj/item/projectile/bullet/pellet/shotgun/launch_projectile(atom/target, target_zone, mob/user, params, angle_override, forced_spread = 0)
+	for(var/x=1,x<pellets,x++)
+		var/obj/item/projectile/bullet/buckshot_pellet/P = new(get_turf(src))
+		P.dispersion += pick(-8,8)
+		P.launch_projectile(target, target_zone, user, params, angle_override, forced_spread)
+	qdel(src)
+	return
+
+/obj/item/projectile/bullet/buckshot_pellet
+	damage = 12 //There are 8 of these fired at a time usually.
+	armor_penetration = 0
 
 /*
 /obj/item/projectile/bullet/pellet/Bumped()

@@ -47,9 +47,9 @@
 	var/tmp/obj/plane/darkness/darkness_plane
 
 /mob/proc/update_lighting()
-	client.screen.Remove(master_plane,darkness_plane)
+	client?.screen.Remove(master_plane,darkness_plane)
 	darkness_plane = new()
-	client.screen.Add(master_plane,darkness_plane)
+	client?.screen.Add(master_plane,darkness_plane)
 
 /mob/Login()
 	..()

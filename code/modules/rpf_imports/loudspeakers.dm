@@ -38,6 +38,8 @@
 			speakers |= s
 
 /obj/structure/announcementmicrophone/attack_hand(mob/user)
+	return //Will re-enable after we are sure all other lag is gone.
+/*
 	. = ..()
 	if(!cooldown)
 		if(!broadcasting)
@@ -72,7 +74,7 @@
 			listening = TRUE
 		playsound(src.loc, "button", 75, 1)
 		update_icon()
-
+*/
 /obj/structure/announcementmicrophone/hear_talk(mob/living/M as mob, msg, var/verb="says", datum/language/speaking=null)
 	if(broadcasting)
 		if(listening)
